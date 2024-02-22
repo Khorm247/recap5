@@ -23,9 +23,9 @@ class SuperKanbanServiceTest {
     @Test
     void getAllTasks_whenCalled_thenReturnCompleteTaskList() {
         // GIVEN
-        TaskObject task1 = new TaskObject("1", "Task 1", "open");
-        TaskObject task2 = new TaskObject("2", "Task 2", "open");
-        TaskObject task3 = new TaskObject("3", "Task 3", "open");
+        TaskObject task1 = new TaskObject("1", "Task 1", TaskStatus.OPEN);
+        TaskObject task2 = new TaskObject("2", "Task 2", TaskStatus.OPEN);
+        TaskObject task3 = new TaskObject("3", "Task 3", TaskStatus.OPEN);
         List<TaskObject> expected = List.of(task1, task2, task3);
         when(mockRepository.findAll()).thenReturn(expected);
         // WHEN
@@ -40,8 +40,8 @@ class SuperKanbanServiceTest {
     void addNewTask(){
         // GIVEN
         String testID = "123456";
-        TaskDto taskDto = new TaskDto("Task 1", "open");
-        TaskObject expected = new TaskObject(testID, "Task 1", "open");
+        TaskDto taskDto = new TaskDto("Task 1", TaskStatus.OPEN);
+        TaskObject expected = new TaskObject(testID, "Task 1", TaskStatus.OPEN);
 
         when(mockIdService.generateUUID()).thenReturn(testID);
         when(mockRepository.save(expected)).thenReturn(expected);
@@ -57,9 +57,9 @@ class SuperKanbanServiceTest {
     void updateTodo() {
         //GIVEN
         String id = "123";
-        TaskDto todoToUpdate = new TaskDto("test-description", TaskStatus.IN_PROGRESS.toString());
+        TaskDto todoToUpdate = new TaskDto("test-description", TaskStatus.IN_PROGRESS);
 
-        TaskObject updatedTodo = new TaskObject("123", "test-description", TaskStatus.IN_PROGRESS.toString());
+        TaskObject updatedTodo = new TaskObject("123", "test-description", TaskStatus.IN_PROGRESS);
 
         when(mockRepository.save(updatedTodo)).thenReturn(updatedTodo);
 
@@ -78,7 +78,7 @@ class SuperKanbanServiceTest {
 
         //GIVEN
         String id = "1";
-        TaskObject todo = new TaskObject("1", "test-description", TaskStatus.OPEN.toString());
+        TaskObject todo = new TaskObject("1", "test-description", TaskStatus.OPEN);
 
         when(mockRepository.findById(id)).thenReturn(Optional.of(todo));
 

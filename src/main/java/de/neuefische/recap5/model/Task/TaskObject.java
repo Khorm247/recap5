@@ -12,6 +12,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TaskObject {
     String id;
     String description;
-    String status;
-    //String details;
+    TaskStatus status;
 }

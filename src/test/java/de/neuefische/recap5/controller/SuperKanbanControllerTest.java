@@ -65,7 +65,7 @@ class SuperKanbanControllerTest {
     @DirtiesContext
     void updateTask() throws Exception {
         //GIVEN
-        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN.toString());
+        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN);
         todoRepository.save(existingTodo);
 
         //WHEN
@@ -92,7 +92,7 @@ class SuperKanbanControllerTest {
     @DirtiesContext
     void getTaskById() throws Exception {
         //GIVEN
-        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN.toString());
+        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN);
         todoRepository.save(existingTodo);
 
         //WHEN
@@ -113,7 +113,7 @@ class SuperKanbanControllerTest {
     @DirtiesContext
     void deleteTodoById() throws Exception {
         //GIVEN
-        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN.toString());
+        TaskObject existingTodo = new TaskObject("1", "test-description", TaskStatus.OPEN);
         todoRepository.save(existingTodo);
 
         //WHEN
