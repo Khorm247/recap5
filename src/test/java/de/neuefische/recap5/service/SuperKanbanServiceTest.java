@@ -4,7 +4,6 @@ import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
