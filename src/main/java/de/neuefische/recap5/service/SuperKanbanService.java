@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.task.TaskDecorator;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
