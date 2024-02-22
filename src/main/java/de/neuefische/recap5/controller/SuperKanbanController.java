@@ -1,11 +1,9 @@
 package de.neuefische.recap5.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.recap5.model.Task.DTOs.TaskDto;
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.service.SuperKanbanService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +26,8 @@ public class SuperKanbanController {
     }
 
     @PostMapping
-    public TaskObject addNewTodoTask(@RequestBody String newTask) throws JsonProcessingException {
-        return service.addNewTask(newTask);
+    public TaskObject addNewTodoTask(@RequestBody TaskDto taskDto) {
+        return service.addNewTask(taskDto);
     }
 
     @PutMapping("/{id}")

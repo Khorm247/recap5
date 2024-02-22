@@ -1,7 +1,6 @@
 package de.neuefische.recap5.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.recap5.model.Task.DTOs.TaskDto;
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +17,9 @@ public class SuperKanbanService {
     private final IdService idService;
     //List<TaskObject> repo;
 
-    public TaskObject addNewTask(String newTask) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        TaskObject task = mapper.readValue(newTask, TaskObject.class);
-        task.setId(idService.generateUUID());
-        repo.save(task);
-        return task;
+    public TaskObject addNewTask(TaskDto newTask){
+        TaskObject task = new TaskObject(idService.generateUUID(), newTask.description(), newTask.status());
+        return repo.save(task);
     }
 
     public List<TaskObject> getAllTasks() {

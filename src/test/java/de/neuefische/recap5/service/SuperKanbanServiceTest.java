@@ -1,5 +1,6 @@
 package de.neuefische.recap5.service;
 
+import de.neuefische.recap5.model.Task.DTOs.TaskDto;
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,23 @@ class SuperKanbanServiceTest {
         // THEN
 
         verify(mockRepository).findAll();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addNewTask(){
+        // GIVEN
+        String testID = "123456";
+        TaskDto taskDto = new TaskDto("Task 1", "open");
+        TaskObject expected = new TaskObject(testID, "Task 1", "open");
+
+        when(mockIdService.generateUUID()).thenReturn(testID);
+        when(mockRepository.save(expected)).thenReturn(expected);
+        // WHEN
+        TaskObject actual = service.addNewTask(taskDto);
+        // THEN
+        verify(mockIdService).generateUUID();
+        verify(mockRepository).save(expected);
         assertEquals(expected, actual);
     }
 }
