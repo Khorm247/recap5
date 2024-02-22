@@ -2,10 +2,13 @@ package de.neuefische.recap5.service;
 
 import de.neuefische.recap5.model.Task.DTOs.TaskDto;
 import de.neuefische.recap5.model.Task.TaskObject;
+import de.neuefische.recap5.model.Task.TaskStatus;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -48,5 +51,71 @@ class SuperKanbanServiceTest {
         verify(mockIdService).generateUUID();
         verify(mockRepository).save(expected);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void updateTodo() {
+        //GIVEN
+        String id = "123";
+        TaskDto todoToUpdate = new TaskDto("test-description", TaskStatus.IN_PROGRESS.toString());
+
+        TaskObject updatedTodo = new TaskObject("123", "test-description", TaskStatus.IN_PROGRESS.toString());
+
+        when(mockRepository.save(updatedTodo)).thenReturn(updatedTodo);
+
+        //WHEN
+
+        TaskObject actual = service.updateTask(id, todoToUpdate);
+
+        //THEN
+        verify(mockRepository).save(updatedTodo);
+
+        assertEquals(updatedTodo, actual);
+    }
+
+    @Test
+    void getTodoByIdTest_whenValidId_ThenReturnTodo() {
+
+        //GIVEN
+        String id = "1";
+        TaskObject todo = new TaskObject("1", "test-description", TaskStatus.OPEN.toString());
+
+        when(mockRepository.findById(id)).thenReturn(Optional.of(todo));
+
+        //WHEN
+        TaskObject actual = service.getTaskById(id);
+
+        //THEN
+        verify(mockRepository).findById(id);
+        assertEquals(todo, actual);
+    }
+
+    @Test
+    void getTodoByIdTest_whenInvalidId_ThenThrowException() {
+        //GIVEN
+        String id = "1";
+
+        when(mockRepository.findById(id)).thenReturn(Optional.empty());
+
+        //WHEN
+
+        assertThrows(NoSuchElementException.class, () -> service.getTaskById(id));
+
+        //THEN
+        verify(mockRepository).findById(id);
+    }
+
+    @Test
+    void deleteTodo() {
+        //GIVEN
+        String id = "1";
+        doNothing().when(mockRepository).deleteById(id);
+
+        //WHEN
+
+        service.deleteTask(id);
+
+        //THEN
+        verify(mockRepository).deleteById(id);
     }
 }

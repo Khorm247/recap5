@@ -22,7 +22,7 @@ public class SuperKanbanController {
 
     @GetMapping("/{id}")
     public TaskObject getTaskById(@PathVariable String id){
-        return service.getTaskToEdit(id);
+        return service.getTaskById(id);
     }
 
     @PostMapping
@@ -32,9 +32,9 @@ public class SuperKanbanController {
 
     @PutMapping("/{id}")
     public TaskObject updateTask(
-            @RequestBody TaskObject taskObject,
+            @RequestBody TaskDto taskDto,
             @PathVariable String id) {
-        return service.updateTask(id, taskObject);
+        return service.updateTask(id, taskDto);
     }
 
     @DeleteMapping("/{id}")
