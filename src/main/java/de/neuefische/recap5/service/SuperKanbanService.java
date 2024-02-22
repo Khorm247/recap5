@@ -2,6 +2,7 @@ package de.neuefische.recap5.service;
 
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
+import org.springframework.core.task.TaskDecorator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class SuperKanbanService {
 
     //private final RestClient client;
     //private final SuperKanbanRepo repo;
+    private int idCounter = 0;
     List<TaskObject> repo;
 
     public SuperKanbanService(SuperKanbanRepo repo){
@@ -19,7 +21,7 @@ public class SuperKanbanService {
     }
 
     public void addNewTask(TaskObject newTask) {
-        //newTask.setId(String.valueOf(idCounter++));
+        newTask.setId(String.valueOf(idCounter++));
         repo.add(newTask);
     }
 
@@ -28,6 +30,7 @@ public class SuperKanbanService {
     }
 
     public TaskObject getTaskToEdit(String id) {
+
         return repo.stream()
                 //.filter(task -> task.getId().equals(id))
                 .findFirst()
@@ -40,8 +43,6 @@ public class SuperKanbanService {
                 .findFirst()
                 .orElse(null);
 
-
-
         if(tObject != null){
             tObject.setDescription(taskObject.getDescription());
             tObject.setStatus(taskObject.getStatus());
@@ -50,7 +51,12 @@ public class SuperKanbanService {
         return null;
     }
 
-    public void deleteTask(TaskObject task) {
-        repo.remove(task);
+    public List<TaskObject> deleteTask(String id) {
+        TaskObject taskToDelete = repo.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        repo.remove(taskToDelete);
+        return repo;
     }
 }

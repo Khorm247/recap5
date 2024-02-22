@@ -19,7 +19,6 @@ public class SuperKanbanController {
 
     @GetMapping
     public List<TaskObject> getAllTasks(){
-        // was passiert hier?
         return service.getAllTasks();
     }
 
@@ -39,20 +38,13 @@ public class SuperKanbanController {
 
     @PutMapping("/{id}")
     public TaskObject updateTask(
-            @RequestBody TaskObject taskObject
-    ) {
-        taskObject.setStatus("IN_PROGRESS");
-        return taskObject;
-    }
-
-    @DeleteMapping("/delete")
-    public String deleteTask(@RequestBody TaskObject taskObject) {
-        service.deleteTask(taskObject);
-        return "taskObject";
+            @RequestBody TaskObject taskObject,
+            @PathVariable String id) {
+        return service.updateTask(id, taskObject);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTodoItem(@PathVariable String id) {
-        //service.deleteTaskById(id);
+    public List<TaskObject> deleteTodoItem(@PathVariable String id) {
+        return service.deleteTask(id);
     }
 }
