@@ -1,5 +1,7 @@
 package de.neuefische.recap5.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.neuefische.recap5.model.Task.TaskObject;
 import de.neuefische.recap5.repo.SuperKanbanRepo;
 import org.springframework.core.task.TaskDecorator;
@@ -13,16 +15,21 @@ public class SuperKanbanService {
 
     //private final RestClient client;
     //private final SuperKanbanRepo repo;
+    private final IdService idService;
     private int idCounter = 0;
     List<TaskObject> repo;
 
     public SuperKanbanService(SuperKanbanRepo repo){
         this.repo = new ArrayList<>();
+        this.idService = new IdService();
     }
 
-    public void addNewTask(TaskObject newTask) {
-        newTask.setId(String.valueOf(idCounter++));
-        repo.add(newTask);
+    public TaskObject addNewTask(String newTask) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        TaskObject task = mapper.readValue(newTask, TaskObject.class);
+        task.setId(idService.generateUUID());
+        repo.add(task);
+        return task;
     }
 
     public List<TaskObject> getAllTasks() {
@@ -32,7 +39,7 @@ public class SuperKanbanService {
     public TaskObject getTaskToEdit(String id) {
 
         return repo.stream()
-                //.filter(task -> task.getId().equals(id))
+                .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }

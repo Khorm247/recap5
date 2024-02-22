@@ -29,11 +29,7 @@ public class SuperKanbanController {
 
     @PostMapping
     public TaskObject addNewTodoTask(@RequestBody String newTask) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        TaskObject task = mapper.readValue(newTask, TaskObject.class);
-        service.addNewTask(task);
-
-        return task;
+        return service.addNewTask(newTask);
     }
 
     @PutMapping("/{id}")
